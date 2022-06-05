@@ -2,6 +2,7 @@ import 'package:e_commerce_app_ui_sample/size_config.dart';
 import 'package:flutter/material.dart';
 
 import 'sign_form.dart';
+import 'social_card.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -30,6 +31,23 @@ class Body extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SignForm(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SocialCard(
+                    icon: 'assets/icons/google-icon.svg',
+                    onTap: () {},
+                  ),
+                  SocialCard(
+                    icon: 'assets/icons/facebook-2.svg',
+                    onTap: () {},
+                  ),
+                  SocialCard(
+                    icon: 'assets/icons/twitter.svg',
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ],
           ),
         ),
