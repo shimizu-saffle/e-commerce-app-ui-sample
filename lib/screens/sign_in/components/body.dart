@@ -1,4 +1,5 @@
 import 'package:e_commerce_app_ui_sample/components/default_button.dart';
+import 'package:e_commerce_app_ui_sample/constants.dart';
 import 'package:e_commerce_app_ui_sample/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -49,27 +50,63 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> errors = ['Demo Error'];
+  final List<String> errors = [];
+  String email = '';
+  String password = '';
   @override
   Widget build(BuildContext context) {
     return Form(
+        key: _formKey,
         child: Column(
-      children: [
-        buildEmailFormField(),
-        SizedBox(height: getProportionateScreenHeight(20)),
-        buildPasswdFormField(),
-        SizedBox(height: getProportionateScreenHeight(20)),
-        FormError(errors: errors),
-        DefaultButton(
-          text: 'Continue',
-          onPressed: () {},
-        )
-      ],
-    ));
+          children: [
+            buildEmailFormField(),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            buildPasswdFormField(),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            FormError(errors: errors),
+            DefaultButton(
+              text: 'Continue',
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                }
+              },
+            ),
+          ],
+        ));
   }
 
   TextFormField buildPasswdFormField() {
     return TextFormField(
+      onSaved: (newValue) {
+        if (newValue != null) {
+          password = newValue;
+        }
+      },
+      onChanged: (value) {
+        if (value.isNotEmpty && errors.contains(kPassNullError)) {
+          setState(() {
+            errors.remove(kPassNullError);
+          });
+        } else if (value.length >= 8 && errors.contains(kShortPassError)) {
+          setState(() {
+            errors.remove(kShortPassError);
+          });
+        }
+        return;
+      },
+      validator: (value) {
+        if (value!.isEmpty && !errors.contains(kPassNullError)) {
+          setState(() {
+            errors.add(kPassNullError);
+          });
+        } else if (value.length < 8 && !errors.contains(kShortPassError)) {
+          setState(() {
+            errors.add(kShortPassError);
+          });
+        }
+        return null;
+      },
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,
       decoration: const InputDecoration(
@@ -83,13 +120,36 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      validator: (value) {
-        if (value!.isEmpty) {
+      onSaved: (newValue) {
+        if (newValue != null) {
+          email = newValue;
+        }
+      },
+      onChanged: (value) {
+        if (value.isNotEmpty && errors.contains(kEmailNullError)) {
           setState(() {
-            errors.add('Please enter your email');
+            errors.remove(kEmailNullError);
+          });
+        } else if (emailValidatorRegExp.hasMatch(value) &&
+            errors.contains(kInvalidEmailError)) {
+          setState(() {
+            errors.remove(kInvalidEmailError);
           });
         }
         return;
+      },
+      validator: (value) {
+        if (value!.isEmpty && !errors.contains(kEmailNullError)) {
+          setState(() {
+            errors.add(kEmailNullError);
+          });
+        } else if (!emailValidatorRegExp.hasMatch(value) &&
+            !errors.contains(kInvalidEmailError)) {
+          setState(() {
+            errors.add(kInvalidEmailError);
+          });
+        }
+        return null;
       },
       decoration: const InputDecoration(
         labelText: 'Email',
