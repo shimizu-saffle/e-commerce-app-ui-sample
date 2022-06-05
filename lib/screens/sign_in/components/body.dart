@@ -1,6 +1,8 @@
 import 'package:e_commerce_app_ui_sample/size_config.dart';
 import 'package:flutter/material.dart';
 
+import 'custom_suffix_icon.dart';
+
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -53,6 +55,7 @@ class _SignFormState extends State<SignForm> {
           decoration: const InputDecoration(
             labelText: 'Email',
             hintText: 'Enter your email',
+            suffixIcon: CustomSuffixIcon(svgIcon: 'assets/icons/Mail.svg'),
           ),
         ),
       ],
