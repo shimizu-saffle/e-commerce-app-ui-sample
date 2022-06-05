@@ -1,6 +1,7 @@
 import 'package:e_commerce_app_ui_sample/size_config.dart';
 import 'package:flutter/material.dart';
 
+import 'no_account_text.dart';
 import 'sign_form.dart';
 import 'social_card.dart';
 
@@ -16,39 +17,46 @@ class Body extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenWidth(20),
           ),
-          child: Column(
-            children: [
-              Text(
-                'Welcome Back',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: getProportionateScreenWidth(28),
-                  fontWeight: FontWeight.bold,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
+                Text(
+                  'Welcome Back',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(28),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const Text(
-                'Sign in with your email and password  \nor continue with social media',
-                textAlign: TextAlign.center,
-              ),
-              const SignForm(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialCard(
-                    icon: 'assets/icons/google-icon.svg',
-                    onTap: () {},
-                  ),
-                  SocialCard(
-                    icon: 'assets/icons/facebook-2.svg',
-                    onTap: () {},
-                  ),
-                  SocialCard(
-                    icon: 'assets/icons/twitter.svg',
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ],
+                const Text(
+                  'Sign in with your email and password  \nor continue with social media',
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                const SignForm(),
+                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SocialCard(
+                      icon: 'assets/icons/google-icon.svg',
+                      onTap: () {},
+                    ),
+                    SocialCard(
+                      icon: 'assets/icons/facebook-2.svg',
+                      onTap: () {},
+                    ),
+                    SocialCard(
+                      icon: 'assets/icons/twitter.svg',
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+                SizedBox(height: getProportionateScreenHeight(20)),
+                const NoAccountText(),
+              ],
+            ),
           ),
         ),
       ),
