@@ -1,5 +1,8 @@
+import 'package:e_commerce_app_ui_sample/constants.dart';
+import 'package:e_commerce_app_ui_sample/size_config.dart';
 import 'package:flutter/material.dart';
 
+import '../../../components/default_button.dart';
 import 'splash_content.dart';
 
 class Body extends StatefulWidget {
@@ -10,6 +13,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
       "text": "Welcome to Tokoto, Let's shop!",
@@ -35,6 +39,11 @@ class _BodyState extends State<Body> {
             Expanded(
               flex: 3,
               child: PageView.builder(
+                onPageChanged: (value) {
+                  setState(() {
+                    currentPage = value;
+                  });
+                },
                 itemCount: splashData.length,
                 itemBuilder: (context, index) => SplashContent(
                   text: splashData[index]["text"] ?? 'text',
@@ -42,12 +51,49 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 2,
-              child: SizedBox(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(20),
+                ),
+                child: Column(
+                  children: [
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        splashData.length,
+                        (index) => buildDot(index: index),
+                      ),
+                    ),
+                    const Spacer(flex: 3),
+                    DefaultButton(
+                      onPressed: () {},
+                      text: 'Continue',
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  AnimatedContainer buildDot({required int index}) {
+    return AnimatedContainer(
+      duration: kAnimationDuration,
+      margin: const EdgeInsets.only(right: 5),
+      height: 6,
+      width: currentPage == index ? 20 : 6,
+      decoration: BoxDecoration(
+        color: currentPage == index
+            ? kPrimaryColor
+            : const Color.fromARGB(255, 210, 206, 206),
+        borderRadius: BorderRadius.circular(3),
       ),
     );
   }
